@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENESIS - 메인 캐러셀</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #ffffff; color: #000000; overflow-x: hidden; }
+        
+        /* 메인 타이틀 영역 */
+        .main-header { max-width: 1280px; margin: 0 auto; padding: 40px 20px 0 20px; text-align: center; }
+        .main-header h1 { font-size: 2.5rem; font-weight: 700; letter-spacing: -1px; }
+        
+        /* 제목과 갤러리 콘테이너 여백 (90px) */
+        .content-spacer { height: 90px; }
+        
+        /* 갤러리 콘테이너 (너비 1280px 가운데 정렬) */
+        .gallery-container { max-width: 1280px; margin: 0 auto; width: 100%; padding: 0 20px; position: relative; }
+        
+        /* 캐러셀 래퍼 (너비 100% 화면 가득, 높이 창높이) */
+        .carousel-wrapper {
+            position: relative;
+            width: 100vw;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: #ffffff;
+            user-select: none;
+        }
+        
+        .carousel-track { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; cursor: grab; }
+        .carousel-track.dragging { cursor: grabbing; transition: none; }
+        
+        .carousel-slide { min-width: 100%; height: 100%; position: relative; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; pointer-events: none; }
+        
+        /* 텍스트 오버레이 */
+        .slide-info { position: absolute; bottom: 80px; left: 8%; color: #ffffff; text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8); z-index: 10; }
+        .slide-info h2 { font-size: 3.5rem; font-weight: 700; margin-bottom: 10px; }
+        .slide-info p { font-size: 1.4rem; font-weight: 300; }
+        
+        /* 화살표 버튼 */
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            width: 60px; height: 60px; background-color: rgba(0,0,0,0.3); border: none;
+            color: #fff; font-size: 2rem; cursor: pointer; border-radius: 50%; z-index: 15;
+            display: flex; align-items: center; justify-content: center; transition: background-color 0.3s;
+        }
+        .nav-btn:hover { background-color: rgba(0,0,0,0.7); }
+        .prev-btn { left: 40px; }
+        .next-btn { right: 40px; }
+        
+        /* 도트 인디케이터 */
+        .carousel-dots { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 15; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background-color: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.3s; }
+        .dot.active { background-color: #ffffff; width: 35px; border-radius: 6px; }
+        
+        @media (max-width: 1024px) {
+            .main-header h1 { font-size: 2rem; }
+            .content-spacer { height: 60px; }
+            .slide-info h2 { font-size: 2.5rem; }
+            .slide-info p { font-size: 1.1rem; }
+            .nav-btn { width: 45px; height: 45px; font-size: 1.5rem; }
+        }
+        @media (max-width: 768px) {
+            .carousel-wrapper { height: 80vh; }
+            .prev-btn { left: 15px; }
+            .next-btn { right: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <h1>GENESIS</h1>
+    </header>
+
+    <div class="content-spacer"></div>
+
+    <div class="gallery-container">
+        <div class="carousel-wrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- 슬라이드 1 -->
+                <div class="carousel-slide" data-link="landing/g80.html">
+                    <img src="./landing/images/section-1.png" alt="Genesis G80">
+                    <div class="slide-info">
+                        <h2>G80</h2>
+                        <p>가장 완벽한 밸런스의 완성형 럭셔리 세단</p>
+                    </div>
+                </div>
+                <!-- 슬라이드 2 -->
+                <div class="carousel-slide" data-link="landing/gv80.html">
+                    <img src="./landing/images/section-2.png" alt="Genesis GV80">
+                    <div class="slide-info">
+                        <h2>GV80</h2>
+                        <p>역동적인 우아함의 정점을 찍은 럭셔리 SUV</p>
+                    </div>
+                </div>
+                <!-- 슬라이드 3 -->
+                <div class="carousel-slide" data-link="landing/g90.html">
+                    <img src="./landing/images/section-3.png" alt="Genesis G90">
+                    <div class="slide-info">
+                        <h2>G90</h2>
+                        <p>최고의 하이테크 감성을 담은 플래그십 명작</p>
+                    </div>
+                </div>
+                <!-- 슬라이드 4 -->
+                <div class="carousel-slide" data-link="landing/concept.html">
+                    <img src="./landing/images/section-4.png" alt="Genesis Concept">
+                    <div class="slide-info">
+                        <h2>GENESIS CONCEPT</h2>
+                        <p>제네시스가 제시하는 미래 모빌리티 비전</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="nav-btn prev-btn" id="prevBtn">&#10094;</button>
+            <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
+            <div class="carousel-dots" id="carouselDots"></div>
+        </div>
+    </div>
+
+    <script>
+        const track = document.getElementById('carouselTrack');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dotsContainer = document.getElementById('carouselDots');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        let currentIndex = 0;
+        const slideCount = slides.length;
+        const waitTime = 4000;
+        let autoPlayTimer;
+
+        // 인디케이터 도트 생성
+        slides.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+                resetTimer();
+            });
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.dot');
+
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+        }
+
+        function nextSlide() {
+            goToSlide((currentIndex + 1) % slideCount);
+        }
+
+        function prevSlide() {
+            goToSlide((currentIndex - 1 + slideCount) % slideCount);
+        }
+
+        prevBtn.addEventListener('click', () => { prevSlide(); resetTimer(); });
+        nextBtn.addEventListener('click', () => { nextSlide(); resetTimer(); });
+
+        function startTimer() { autoPlayTimer = setInterval(nextSlide, waitTime); }
+        function resetTimer() { clearInterval(autoPlayTimer); startTimer(); }
+        startTimer();
+
+        // 드래그 및 터치 이벤트 구현
+        let isDragging = false;
+        let startX = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let movedBy = 0;
+        let isClick = true;
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        }
+
+        function dragStart(event) {
+            isDragging = true;
+            isClick = true;
+            startX = getPositionX(event);
+            track.classList.add('dragging');
+            clearInterval(autoPlayTimer);
+        }
+
+        function dragMove(event) {
+            if (!isDragging) return;
+            const currentX = getPositionX(event);
+            movedBy = currentX - startX;
+            if (Math.abs(movedBy) > 5) {
+                isClick = false;
+            }
+            const baseTranslate = -currentIndex * window.innerWidth;
+            track.style.transform = `translateX(${baseTranslate + movedBy}px)`;
+        }
+
+        function dragEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('dragging');
+            
+            const threshold = window.innerWidth * 0.2; // 20% 이상 드래그시 이동
+            if (movedBy < -threshold && currentIndex < slideCount - 1) {
+                currentIndex += 1;
+            } else if (movedBy > threshold && currentIndex > 0) {
+                currentIndex -= 1;
+            }
+            goToSlide(currentIndex);
+            startTimer();
+        }
+
+        // 클릭시 랜딩페이지 이동 이벤트
+        slides.forEach(slide => {
+            slide.addEventListener('click', (e) => {
+                if (isClick) {
+                    window.location.href = slide.getAttribute('data-link');
+                }
+            });
+        });
+
+        // 데스크탑 마우스 이벤트
+        track.addEventListener('mousedown', dragStart);
+        window.addEventListener('mousemove', dragMove);
+        window.addEventListener('mouseup', dragEnd);
+
+        // 모바일 터치 이벤트
+        track.addEventListener('touchstart', dragStart);
+        track.addEventListener('touchmove', dragMove);
+        track.addEventListener('touchend', dragEnd);
+    </script>
+</body>
+</html>

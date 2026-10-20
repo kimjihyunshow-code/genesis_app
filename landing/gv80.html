@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENESIS - GV80</title>
+    <style>
+        html { scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #ffffff; color: #000000; overflow-x: hidden; }
+        
+        /* 패럴럭스 융합 풀스크린 히어로 영역 */
+        .hero-section {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 120%;
+            background-image: url('../landing/images/section-7.png');
+            background-size: cover;
+            background-position: center;
+            will-change: transform;
+            transition: transform 2s cubic-bezier(0.1, 1, 0.1, 1);
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: ''; position: absolute; top:0; left:0; width:100%; height:100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); z-index: 2;
+        }
+        
+        /* 텍스트 타이틀 로딩 애니메이션 (fadeInUp) */
+        .hero-content {
+            position: relative; z-index: 3; text-align: center; color: #ffffff;
+            animation: fadeInUp 1.5s ease-out forwards; opacity: 0; transform: translateY(40px);
+        }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero-content h1 { font-size: 4.5rem; font-weight: 700; letter-spacing: -1px; margin-bottom: 15px; }
+        .hero-content p { font-size: 1.5rem; font-weight: 300; margin-bottom: 35px; }
+        
+        .back-btn {
+            display: inline-block; padding: 14px 35px; border: 1px solid #ffffff; background: transparent;
+            color: #ffffff; font-size: 1rem; text-decoration: none; text-transform: uppercase; letter-spacing: 1px;
+            transition: all 0.3s ease; cursor: pointer;
+        }
+        .back-btn:hover { background-color: #ffffff; color: #000000; font-weight: bold; }
+        
+        /* 메인 콘텐츠 영역 (1280px 가이드 준수) */
+        .detail-container { max-width: 1280px; margin: 0 auto; padding: 100px 20px; }
+        
+        .section-title { font-size: 2.2rem; font-weight: 700; margin-bottom: 40px; border-bottom: 2px solid #111; padding-bottom: 15px; }
+        
+        /* 제원 그리드 스펙 */
+        .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-bottom: 100px; }
+        .spec-item { background-color: #f8f9fa; padding: 40px 30px; border-left: 4px solid #000; }
+        .spec-item h3 { font-size: 1.1rem; color: #666; margin-bottom: 10px; font-weight: 500; }
+        .spec-item p { font-size: 1.8rem; font-weight: 700; color: #111; }
+        
+        /* 가격 테이블 */
+        .price-table { width: 100%; border-collapse: collapse; margin-top: 20px; text-align: left; }
+        .price-table th, .price-table td { padding: 20px; border-bottom: 1px solid #ddd; }
+        .price-table th { background-color: #111; color: #fff; font-size: 1.1rem; font-weight: 500; }
+        .price-table tr:hover td { background-color: #f8f9fa; }
+        .price-table td.price-val { font-weight: 700; text-align: right; color: #333; }
+        
+        /* Go Top 고정형 버튼 */
+        .go-top-btn {
+            position: fixed; bottom: 40px; right: 40px; width: 55px; height: 55px;
+            background-color: #111111; color: #ffffff; border: none; border-radius: 50%;
+            font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 99; box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        }
+        .go-top-btn.show { opacity: 1; visibility: visible; }
+        .go-top-btn:hover { background-color: #333333; transform: translateY(-3px); }
+        
+        @media (max-width: 1024px) {
+            .hero-content h1 { font-size: 3.5rem; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content p { font-size: 1.1rem; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .price-table th, .price-table td { padding: 12px; font-size: 0.9rem; }
+            .go-top-btn { bottom: 20px; right: 20px; width: 45px; height: 45px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 패럴럭스 히어로 섹션 -->
+    <section class="hero-section">
+        <div class="hero-bg" id="heroBg"></div>
+        <div class="hero-content">
+            <h1>GV80</h1>
+            <p>역동적인 우아함의 정점을 찍은 럭셔리 SUV</p>
+            <a href="../index.html" class="back-btn">메인 슬라이드로 돌아가기</a>
+        </div>
+    </section>
+
+    <!-- 세부 콘텐츠 컨테이너 -->
+    <main class="detail-container">
+        <!-- 제원 영역 -->
+        <section>
+            <h2 class="section-title">SPECIFICATIONS</h2>
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <h3>엔진 형식</h3>
+                    <p>가솔린 2.5T / 3.5T</p>
+                </div>
+                <div class="spec-item">
+                    <h3>최고 출력</h3>
+                    <p>304 / 380 HP</p>
+                </div>
+                <div class="spec-item">
+                    <h3>최대 토크</h3>
+                    <p>43.0 / 54.0 kg·m</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 가격 영역 -->
+        <section>
+            <h2 class="section-title">PRICE & TRIMS</h2>
+            <table class="price-table">
+                <thead>
+                    <tr>
+                        <th>트림 명 (Trim)</th>
+                        <th>주요 기본 사양</th>
+                        <th style="text-align: right;">판매 가격</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+<tr><td>가솔린 2.5 터보</td><td>5인승, 19인치 피렐리 타이어, 27인치 OLED 통합형 디스플레이</td><th class="price-val">69,300,000 원 ~</th></tr>
+<tr><td>가솔린 3.5 터보</td><td>AWD 기본, 20인치 매치드 다이아몬드 휠, 헤드업 디스플레이</td><th class="price-val">76,000,000 원 ~</th></tr>
+<tr><td>디자인 셀렉션 II</td><td>프라임 나파 가죽 시트, 오픈포어 리얼우드 가니쉬, 스웨이드 내장재</td><th class="price-val">81,200,000 원 ~</th></tr>
+
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- 탑버튼 -->
+    <button class="go-top-btn" id="goTopBtn">▲</button>
+
+    <script>
+        // 스무스 패럴럭스 스크롤 이벤트 구현
+        const heroBg = document.getElementById('heroBg');
+        window.addEventListener('scroll', () => {
+            let scrollOffset = window.pageYOffset;
+            // 미세하고 부드러운 이미지 패럴럭스 평행 이동 효과 제어
+            heroBg.style.transform = `translateY(${scrollOffset * 0.4}px)`;
+        });
+
+        // Go Top 버튼 노출 및 스무스 이동 스크립트
+        const goTopBtn = document.getElementById('goTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                goTopBtn.classList.add('show');
+            } else {
+                goTopBtn.classList.remove('show');
+            }
+        });
+
+        goTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
